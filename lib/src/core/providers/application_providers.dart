@@ -1,7 +1,10 @@
 import 'package:barber_app/src/core/rest/rest_client.dart';
 import 'package:barber_app/src/repositories/user/user_repository.dart';
 import 'package:barber_app/src/repositories/user/user_repository_impl.dart';
+import 'package:barber_app/src/services/user_login/user_login_service_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../services/user_login/user_login_service.dart';
 
 part 'application_providers.g.dart';
 
@@ -11,3 +14,7 @@ RestClient restClient(RestClientRef ref) => RestClient();
 @Riverpod(keepAlive: true)
 UserRepository userRepository(UserRepositoryRef ref) =>
     UserRepositoryImpl(ref.read(restClientProvider));
+
+@Riverpod(keepAlive: true)
+UserLoginService userLoginService(UserLoginServiceRef ref) =>
+    UserLoginServiceImpl(repo: ref.read(userRepositoryProvider));

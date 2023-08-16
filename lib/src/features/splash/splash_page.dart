@@ -1,5 +1,5 @@
 import 'package:barber_app/src/core/ui/constants.dart';
-import 'package:barber_app/src/features/auth/login_page.dart';
+import 'package:barber_app/src/features/auth/login/login_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {

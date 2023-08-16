@@ -1,5 +1,5 @@
 class ServiceException implements Exception {
   final String message;
 
-  ServiceException({required this.message});
+  ServiceException(this.message);
 }

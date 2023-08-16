@@ -3,7 +3,7 @@ import 'package:barber_app/src/core/ui/barbershop_theme.dart';
 import 'package:barber_app/src/features/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 
-import 'auth/login_page.dart';
+import 'auth/login/login_page.dart';
 
 class BarbershopApp extends StatelessWidget {
   const BarbershopApp({super.key});
