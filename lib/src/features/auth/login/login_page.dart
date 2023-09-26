@@ -41,8 +41,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Messages.showError(context, "Erro ao Realizar o Login");
           break;
         case LoginState(status: LoginStateStatus.admLogin):
+          Navigator.of(context).pushNamedAndRemoveUntil("/home/adm", (route) => false);
           break;
         case LoginState(status: LoginStateStatus.employeeLogin):
+          Navigator.of(context).pushNamedAndRemoveUntil("/home/employee", (route) => false);
+
           break;
       }
     });
@@ -105,8 +108,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 [
                                   Validatorless.required(
                                       "A senha é obrigatória"),
-                                  Validatorless.min(8,
-                                      "A senha deve conter no mínimo 8 caracteres"),
+                                  Validatorless.min(6,
+                                      "A senha deve conter no mínimo 6 caracteres"),
                                 ],
                               ),
                               decoration: const InputDecoration(

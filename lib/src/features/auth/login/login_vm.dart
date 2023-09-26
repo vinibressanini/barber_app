@@ -5,6 +5,7 @@ import 'package:barber_app/src/features/auth/login/login_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/fp/either.dart';
+import '../../../models/user_model.dart';
 
 part 'login_vm.g.dart';
 
@@ -22,8 +23,17 @@ class LoginVm extends _$LoginVm {
 
     switch (response) {
       case Success():
-        // buscar dados do usuário logado
-        // fazer analise de qual o tipo do login
+
+        ref.invalidate(getMeProvider);
+        ref.invalidate(getMyBarbershopProvider);
+
+        final userModel = await ref.watch(getMeProvider.future);
+        switch (userModel) {
+          case UserModelADM():
+            state = state.copyWith(status: LoginStateStatus.admLogin);
+          case UserModelEmployee():
+            state = state.copyWith(status: LoginStateStatus.employeeLogin);
+        }
         break;
       case Failure(exception: ServiceException(:final message)):
         state = state.copyWith(

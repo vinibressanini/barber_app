@@ -1,3 +1,4 @@
+import 'package:barber_app/src/core/rest/interceptors/auth_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
@@ -5,7 +6,7 @@ class RestClient extends DioForNative {
   RestClient()
       : super(
           BaseOptions(
-            baseUrl: "192.168.0.4:8080",
+            baseUrl: "http://192.168.0.4:8080",
             connectTimeout: const Duration(seconds: 10),
             receiveTimeout: const Duration(minutes: 1),
           ),
@@ -14,7 +15,8 @@ class RestClient extends DioForNative {
       LogInterceptor(
         requestBody: true,
         responseBody: true,
-      )
+      ),
+      AuthInterceptor()
     ]);
   }
 

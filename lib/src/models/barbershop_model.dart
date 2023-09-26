@@ -13,7 +13,7 @@ class BarbershopModel {
     required this.openingHours,
   });
 
-  BarbershopModel fromMap(Map<String, dynamic> json) {
+  factory BarbershopModel.fromMap(Map<String, dynamic> json) {
     return switch (json) {
       {
         "id": final int id,
