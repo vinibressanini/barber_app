@@ -1,4 +1,5 @@
 import 'package:asyncstate/widget/async_state_builder.dart';
+import 'package:barber_app/src/core/ui/barbershop_nav_global_key.dart';
 import 'package:barber_app/src/core/ui/barbershop_theme.dart';
 import 'package:barber_app/src/features/splash/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class BarbershopApp extends StatelessWidget {
           initialRoute: "/",
           theme: BarbershopTheme.themeDate,
           navigatorObservers: [asyncNavigatorObserver],
+          navigatorKey: BarbershopNavGlobalKey.instance.key,
           routes: {
             "/": (_) => const SplashPage(),
             "/auth/login": (_) => const LoginPage(),
