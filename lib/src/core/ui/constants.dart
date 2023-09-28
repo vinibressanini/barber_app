@@ -5,7 +5,7 @@ sealed class FontConstants {
 }
 
 sealed class ImageConstants {
-  static const chairImageBg = "assets/images/background_image_chair.png";
+  static const chairImageBg = "assets/images/background_image_chair.jpg";
   static const dwBarberLogo = "assets/images/imgLogo.png";
   static const avatar = "assets/images/avatar.png";
 }
