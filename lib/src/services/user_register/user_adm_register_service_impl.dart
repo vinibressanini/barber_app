@@ -3,13 +3,13 @@ import 'package:barber_app/src/core/fp/either.dart';
 import 'package:barber_app/src/core/fp/nil.dart';
 import 'package:barber_app/src/repositories/user/user_repository.dart';
 import 'package:barber_app/src/services/user_login/user_login_service.dart';
-import 'package:barber_app/src/services/user_register/user_register_service.dart';
+import 'package:barber_app/src/services/user_register/user_adm_register_service.dart';
 
-class UserRegisterServiceImpl implements UserRegisterService {
+class UserAdmRegisterServiceImpl implements UserAdmRegisterService {
   final UserRepository userRepository;
   final UserLoginService userLoginService;
 
-  UserRegisterServiceImpl(
+  UserAdmRegisterServiceImpl(
       {required this.userRepository, required this.userLoginService});
 
   @override
