@@ -1,9 +1,9 @@
 import 'package:asyncstate/asyncstate.dart';
 import 'package:barber_app/src/core/providers/application_providers.dart';
-import 'package:barber_app/src/features/auth/register/register_providers.dart';
+import 'package:barber_app/src/features/auth/register/user/register_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/fp/either.dart';
+import '../../../../core/fp/either.dart';
 
 part 'register_vm.g.dart';
 
@@ -25,7 +25,8 @@ class RegisterVm extends _$RegisterVm {
       password: password,
     );
 
-    var registerResult = await admRegisterService.execute(userDto).asyncLoader();
+    var registerResult =
+        await admRegisterService.execute(userDto).asyncLoader();
 
     switch (registerResult) {
       case Success():

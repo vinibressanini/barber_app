@@ -1,9 +1,9 @@
-import 'package:barber_app/src/features/auth/register/register_vm.dart';
+import 'package:barber_app/src/features/auth/register/user/register_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:validatorless/validatorless.dart';
 
-import '../../../core/ui/helpers/messages.dart';
+import '../../../../core/ui/helpers/messages.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
