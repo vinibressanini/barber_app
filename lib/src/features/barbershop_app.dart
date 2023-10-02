@@ -16,7 +16,7 @@ class BarbershopApp extends StatelessWidget {
     return AsyncStateBuilder(
       builder: (asyncNavigatorObserver) {
         return MaterialApp(
-          initialRoute: "auth/register/barbershop",
+          initialRoute: "/",
           theme: BarbershopTheme.themeDate,
           navigatorObservers: [asyncNavigatorObserver],
           navigatorKey: BarbershopNavGlobalKey.instance.key,
@@ -27,6 +27,9 @@ class BarbershopApp extends StatelessWidget {
             "auth/register/barbershop": (_) => const BarbershopRegisterPage(),
             "/home/adm": (_) => const Text("ADM"),
             "/home/employee": (_) => const Text("EMPLOYEE"),
+            "/barbershop_test": (_) => const Center(
+                  child: Text("BARBERSHOP CREATE SUCCESSFULLY"),
+                )
           },
           debugShowCheckedModeBanner: false,
         );

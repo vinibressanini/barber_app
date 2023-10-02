@@ -5,11 +5,13 @@ import 'hour_button.dart';
 class WorkHoursWrap extends StatelessWidget {
   final int initalHour;
   final int finalHour;
+  final ValueChanged<int> onHourSelected;
 
   const WorkHoursWrap({
     super.key,
     required this.finalHour,
     required this.initalHour,
+    required this.onHourSelected,
   });
 
   @override
@@ -31,7 +33,11 @@ class WorkHoursWrap extends StatelessWidget {
           spacing: 8,
           children: [
             for (int i = initalHour; i <= finalHour; i++)
-              HourButton(label: "${i.toString().padLeft(2, "0")}:00"),
+              HourButton(
+                label: "${i.toString().padLeft(2, "0")}:00",
+                value: i,
+                onHourSelected: onHourSelected,
+              ),
           ],
         ),
       ],
