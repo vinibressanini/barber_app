@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:barber_app/src/core/exceptions/auth_exception.dart';
 import 'package:barber_app/src/core/exceptions/repository_exception.dart';
 import 'package:barber_app/src/core/fp/either.dart';
+import 'package:barber_app/src/core/fp/nil.dart';
 import 'package:barber_app/src/core/rest/rest_client.dart';
 import 'package:barber_app/src/models/user_model.dart';
 import 'package:barber_app/src/repositories/user/user_repository.dart';
@@ -48,6 +49,28 @@ class UserRepositoryImpl implements UserRepository {
     } on ArgumentError catch (e, s) {
       log("[ERROR] Invalid JSON", error: e, stackTrace: s);
       return Failure(RepositoryException(e.message));
+    }
+  }
+
+  @override
+  Future<Either<RepositoryException, Nil>> registerAdmin(
+      ({String email, String name, String password}) userData) async {
+    try {
+      await _restClient.unauth.post(
+        "/users",
+        data: {
+          "name": userData.name,
+          "email": userData.email,
+          "password": userData.password,
+          "profile": "ADM",
+        },
+      );
+
+      return Success(nil);
+    } on DioException catch (e, s) {
+      log("[ERROR] Erro ao registrar o usuário Admin", error: e, stackTrace: s);
+      return Failure(
+          RepositoryException("Erro ao realizar o cadastro do usuário Admin"));
     }
   }
 }

@@ -41,10 +41,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Messages.showError(context, "Erro ao Realizar o Login");
           break;
         case LoginState(status: LoginStateStatus.admLogin):
-          Navigator.of(context).pushNamedAndRemoveUntil("/home/adm", (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil("/home/adm", (route) => false);
           break;
         case LoginState(status: LoginStateStatus.employeeLogin):
-          Navigator.of(context).pushNamedAndRemoveUntil("/home/employee", (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil("/home/employee", (route) => false);
 
           break;
       }
@@ -156,14 +158,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ),
                           ],
                         ),
-                        const Align(
+                        Align(
                           alignment: Alignment.bottomCenter,
-                          child: Text(
-                            "Criar Conta",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
+                          child: InkWell(
+                            onTap: () => Navigator.of(context)
+                                .pushNamed("/auth/register"),
+                            child: const Text(
+                              "Criar Conta",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
                           ),
                         ),
                       ],

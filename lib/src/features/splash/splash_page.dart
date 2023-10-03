@@ -1,20 +1,29 @@
-import 'package:barber_app/src/core/ui/constants.dart';
-import 'package:barber_app/src/features/auth/login/login_page.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:developer';
 
-class SplashPage extends StatefulWidget {
+import 'package:barber_app/src/core/ui/constants.dart';
+import 'package:barber_app/src/features/splash/splash_vm.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../core/ui/helpers/messages.dart';
+
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState extends ConsumerState<SplashPage> {
   var logoScale = 10.0;
   var logoOpacity = 0.0;
 
   double get _logoWidth => 100 * logoScale;
   double get _logoHeight => 120 * logoScale;
+
+  var endAnimation = false;
+  Timer? redirectTimer;
 
   @override
   void initState() {
@@ -26,8 +35,47 @@ class _SplashPageState extends State<SplashPage> {
     });
   }
 
+  void redirect(String routeName) {
+    if (!endAnimation) {
+      redirectTimer?.cancel();
+      redirectTimer = Timer(const Duration(milliseconds: 300), () {
+        redirect(routeName);
+      });
+    } else {
+      redirectTimer?.cancel();
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        routeName,
+        (route) => false,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(splashVmProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, stackTrace) {
+          log("Erro ao validar o login do usuário",
+              error: error, stackTrace: stackTrace);
+          Messages.showError(context, "Erro ao validar login");
+          redirect("/auth/login");
+        },
+        data: (data) {
+          switch (data) {
+            case SplashState.loggedADM:
+              redirect("/home/adm");
+              break;
+            case SplashState.loggedEmployee:
+              redirect("/home/employee");
+              break;
+            case _:
+              redirect("/auth/login");
+              break;
+          }
+        },
+      );
+    });
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: DecoratedBox(
@@ -43,20 +91,9 @@ class _SplashPageState extends State<SplashPage> {
               duration: const Duration(seconds: 1),
               curve: Curves.easeIn,
               onEnd: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                    PageRouteBuilder(
-                      settings: const RouteSettings(name: "/auth/login"),
-                      pageBuilder: (conext, animation, secondaryAnimation) {
-                        return const LoginPage();
-                      },
-                      transitionsBuilder: (_, animation, __, child) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        );
-                      },
-                    ),
-                    (route) => false);
+                setState(() {
+                  endAnimation = !endAnimation;
+                });
               },
               child: AnimatedContainer(
                   duration: const Duration(seconds: 1),
