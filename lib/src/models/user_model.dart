@@ -71,23 +71,23 @@ class UserModelEmployee extends UserModel {
   factory UserModelEmployee.fromMap(Map<String, dynamic> json) {
     return switch (json) {
       {
-        "id": final int id,
-        "barbershop_id": final int barbershopId,
-        "name": final String name,
-        "email": final String email,
-        "work_days": final List<String> workDays,
-        "work_hours": final List<int> workHours,
+        'id': final int id,
+        'name': final String name,
+        'email': final String email,
+        'barbershop_id': final int barbershopId,
+        'work_days': final List workDays,
+        'work_hours': final List workHours,
       } =>
         UserModelEmployee(
           id: id,
-          barbershopId: barbershopId,
           name: name,
           email: email,
-          workDays: workDays,
-          workHours: workHours,
-          avatar: json["avatar"],
+          avatar: json['avatar'],
+          barbershopId: barbershopId,
+          workDays: workDays.cast<String>(),
+          workHours: workHours.cast<int>(),
         ),
-      _ => throw ArgumentError("[ERROR] Invalid JSON")
+      _ => throw ArgumentError('Invalid Json'),
     };
   }
 }

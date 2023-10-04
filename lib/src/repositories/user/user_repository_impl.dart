@@ -73,4 +73,27 @@ class UserRepositoryImpl implements UserRepository {
           RepositoryException("Erro ao realizar o cadastro do usuário Admin"));
     }
   }
+
+  @override
+  Future<Either<RepositoryException, List<UserModelEmployee>>> getEmployees(
+      int barbershopId) async {
+    try {
+      var Response(:List data) = await _restClient.auth
+          .get('/users', queryParameters: {"barbershop_id": barbershopId});
+
+      final employees = data.map((e) => UserModelEmployee.fromMap(e)).toList();
+
+      return Success(employees);
+    } on DioException catch (e, s) {
+      log("[ERROR]  Erro ao recuperar lista de colaboradores",
+          error: e, stackTrace: s);
+      return Failure(
+          RepositoryException("Erro ao buscar a lista de colaboradores"));
+    } on ArgumentError catch (e, s) {
+      log("JSON INVALIDO | Erro ao buscar a lista de colaboradores",
+          error: e, stackTrace: s);
+      return Failure(
+          RepositoryException("Erro ao buscar a lista de colaboradores"));
+    }
+  }
 }
