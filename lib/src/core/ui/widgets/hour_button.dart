@@ -6,11 +6,13 @@ class HourButton extends StatefulWidget {
   final String label;
   final int value;
   final ValueChanged<int> onHourSelected;
+  final List<int>? enabledHours;
 
   const HourButton({
     required this.value,
     required this.label,
     required this.onHourSelected,
+    this.enabledHours,
     super.key,
   });
 
@@ -23,17 +25,28 @@ class _HourButtonState extends State<HourButton> {
 
   @override
   Widget build(BuildContext context) {
+    var buttonColor = selected ? ColorsConstants.brown : Colors.white;
+
+    var disableButton = widget.enabledHours != null &&
+        !widget.enabledHours!.contains(widget.value);
+
+    if (disableButton) {
+      buttonColor = Colors.grey[400]!;
+    }
+
     return InkWell(
-      onTap: () => setState(() {
-        widget.onHourSelected(widget.value);
-        selected = !selected;
-      }),
+      onTap: disableButton
+          ? null
+          : () => setState(() {
+                widget.onHourSelected(widget.value);
+                selected = !selected;
+              }),
       borderRadius: BorderRadius.circular(10),
       child: Container(
         width: 64,
         height: 35,
         decoration: BoxDecoration(
-          color: selected ? ColorsConstants.brown : Colors.white,
+          color: buttonColor,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: ColorsConstants.grey,

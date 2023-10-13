@@ -1,15 +1,20 @@
+import 'package:barber_app/src/core/providers/application_providers.dart';
 import 'package:barber_app/src/core/ui/barbershop_icons.dart';
 import 'package:barber_app/src/core/ui/constants.dart';
+import 'package:barber_app/src/core/ui/widgets/barbershop_loader.dart';
+import 'package:barber_app/src/features/home/adm/admin_home_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeHeader extends StatelessWidget {
+class HomeHeader extends ConsumerWidget {
   final bool showFilter;
 
   const HomeHeader({super.key, this.showFilter = true});
   const HomeHeader.withoutFilter({super.key, this.showFilter = false});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var barbershop = ref.watch(getMyBarbershopProvider);
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(24),
@@ -26,45 +31,52 @@ class HomeHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const CircleAvatar(
-                backgroundColor: ColorsConstants.grey,
-                child: SizedBox.shrink(),
-              ),
-              const SizedBox(width: 16),
-              const Flexible(
-                child: Text(
-                  "Vinicius Bressanini",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+          barbershop.maybeWhen(
+              orElse: () => const Center(
+                    child: BarbershopLoader(),
                   ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              const Expanded(
-                child: Text(
-                  "editar",
-                  style: TextStyle(
-                    color: ColorsConstants.brown,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  BarbershopIcons.exit,
-                  color: ColorsConstants.brown,
-                  size: 32,
-                ),
-              ),
-            ],
-          ),
+              data: (barbershopState) {
+                return Row(
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: ColorsConstants.grey,
+                      child: SizedBox.shrink(),
+                    ),
+                    const SizedBox(width: 16),
+                    Flexible(
+                      child: Text(
+                        barbershopState.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Text(
+                        "editar",
+                        style: TextStyle(
+                          color: ColorsConstants.brown,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () async =>
+                          ref.read(adminHomeVmProvider.notifier).logout(),
+                      icon: const Icon(
+                        BarbershopIcons.exit,
+                        color: ColorsConstants.brown,
+                        size: 32,
+                      ),
+                    ),
+                  ],
+                );
+              }),
           const SizedBox(height: 24),
           const Text(
             "Bem-Vindo",

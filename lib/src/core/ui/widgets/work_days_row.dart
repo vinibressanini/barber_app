@@ -4,10 +4,12 @@ import 'day_button.dart';
 
 class WorkDaysRow extends StatelessWidget {
   final ValueChanged<String> onDaySelected;
+  final List<String>? enabledDays;
 
   const WorkDaysRow({
     super.key,
     required this.onDaySelected,
+    this.enabledDays,
   });
 
   @override
@@ -29,30 +31,37 @@ class WorkDaysRow extends StatelessWidget {
             DayButton(
               day: "Seg",
               onDaySelected: onDaySelected,
+              enabledDays: enabledDays,
             ),
             DayButton(
               day: "Ter",
               onDaySelected: onDaySelected,
+              enabledDays: enabledDays,
             ),
             DayButton(
               day: "Qua",
               onDaySelected: onDaySelected,
+              enabledDays: enabledDays,
             ),
             DayButton(
               day: "Qui",
               onDaySelected: onDaySelected,
+              enabledDays: enabledDays,
             ),
             DayButton(
               day: "Sex",
               onDaySelected: onDaySelected,
+              enabledDays: enabledDays,
             ),
             DayButton(
               day: "Sab",
               onDaySelected: onDaySelected,
+              enabledDays: enabledDays,
             ),
             DayButton(
               day: "Dom",
               onDaySelected: onDaySelected,
+              enabledDays: enabledDays,
             ),
           ],
         ),

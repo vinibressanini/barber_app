@@ -6,12 +6,14 @@ class WorkHoursWrap extends StatelessWidget {
   final int initalHour;
   final int finalHour;
   final ValueChanged<int> onHourSelected;
+  final List<int>? enabledHours;
 
   const WorkHoursWrap({
     super.key,
     required this.finalHour,
     required this.initalHour,
     required this.onHourSelected,
+    this.enabledHours,
   });
 
   @override
@@ -37,6 +39,7 @@ class WorkHoursWrap extends StatelessWidget {
                 label: "${i.toString().padLeft(2, "0")}:00",
                 value: i,
                 onHourSelected: onHourSelected,
+                enabledHours: enabledHours,
               ),
           ],
         ),
