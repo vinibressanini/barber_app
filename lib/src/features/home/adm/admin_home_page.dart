@@ -20,23 +20,33 @@ class _AdminHomePageState extends ConsumerState<AdminHomePage> {
   @override
   Widget build(BuildContext context) {
     var employees = ref.watch(adminHomeVmProvider);
+
+    Future<void> refresh() async {
+      var adminVm = ref.read(adminHomeVmProvider.notifier);
+
+      await adminVm.getEmployees();
+    }
+
     return Scaffold(
       body: employees.when(
         data: (data) {
-          return CustomScrollView(
-            slivers: [
-              const SliverToBoxAdapter(
-                child: HomeHeader(),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: data.employees.length,
-                  (context, index) => EmployeeContainer(
-                    employee: data.employees[index],
+          return RefreshIndicator.adaptive(
+            onRefresh: () => refresh(),
+            child: CustomScrollView(
+              slivers: [
+                const SliverToBoxAdapter(
+                  child: HomeHeader(),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: data.employees.length,
+                    (context, index) => EmployeeContainer(
+                      employee: data.employees[index],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
         loading: () => const Center(
@@ -57,7 +67,10 @@ class _AdminHomePageState extends ConsumerState<AdminHomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          await Navigator.of(context).pushNamed("/auth/register/employee");
+          ref.invalidate(adminHomeVmProvider);
+        },
         backgroundColor: ColorsConstants.brown,
         shape: const CircleBorder(),
         child: const CircleAvatar(

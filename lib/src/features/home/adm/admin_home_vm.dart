@@ -13,6 +13,10 @@ part 'admin_home_vm.g.dart';
 class AdminHomeVm extends _$AdminHomeVm {
   @override
   Future<AdminHomeState> build() async {
+    return await getEmployees();
+  }
+
+  Future<AdminHomeState> getEmployees() async {
     var repository = ref.read(userRepositoryProvider);
     final BarbershopModel(id: barbershopId) =
         await ref.read(getMyBarbershopProvider.future);
@@ -25,12 +29,11 @@ class AdminHomeVm extends _$AdminHomeVm {
       case Success(value: final employeesData):
         final employees = <UserModel>[];
 
-        employees.addAll(employeesData);
-
         if (me case UserModelADM(workDays: _?, workHours: _?)) {
           employees.add(me);
         }
 
+        employees.addAll(employeesData);
         return AdminHomeState(
             status: AdminHomeStateStatus.loaded, employees: employees);
       case Failure():
