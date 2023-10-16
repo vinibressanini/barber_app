@@ -87,7 +87,7 @@ class _BarbershopRegisterPageState
                   initalHour: 05,
                   finalHour: 23,
                   onHourSelected: (value) {
-                    barbershopVm.addOrRemoveWorkingHours(value);
+                    barbershopVm.addOrRemoveWorkingHours(value!);
                   },
                 ),
                 const SizedBox(height: 24),
