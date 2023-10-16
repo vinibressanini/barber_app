@@ -30,7 +30,7 @@ class WorkHoursWrap extends StatefulWidget {
 }
 
 class _WorkHoursWrapState extends State<WorkHoursWrap> {
-  int? lastSelection = 0;
+  int? lastSelection;
   @override
   Widget build(BuildContext context) {
     return Column(

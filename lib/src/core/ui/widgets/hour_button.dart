@@ -5,7 +5,7 @@ import '../constants.dart';
 class HourButton extends StatefulWidget {
   final String label;
   final int value;
-  final ValueChanged<int?> onHourSelected;
+  final ValueChanged<int> onHourSelected;
   final List<int>? enabledHours;
   final bool singleSelection;
   final int? selectedValue;

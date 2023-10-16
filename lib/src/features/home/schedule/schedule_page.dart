@@ -2,21 +2,23 @@ import 'package:barber_app/src/core/ui/barbershop_icons.dart';
 import 'package:barber_app/src/core/ui/constants.dart';
 import 'package:barber_app/src/core/ui/widgets/avatar_widget.dart';
 import 'package:barber_app/src/core/ui/widgets/work_hours_wrap.dart';
+import 'package:barber_app/src/features/home/schedule/schedule_vm.dart';
 import 'package:barber_app/src/features/home/schedule/widgets/calendar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../../../core/ui/helpers/messages.dart';
 
-class SchedulePage extends StatefulWidget {
+class SchedulePage extends ConsumerStatefulWidget {
   const SchedulePage({super.key});
 
   @override
-  State<SchedulePage> createState() => _SchedulePageState();
+  ConsumerState<SchedulePage> createState() => _SchedulePageState();
 }
 
-class _SchedulePageState extends State<SchedulePage> {
+class _SchedulePageState extends ConsumerState<SchedulePage> {
   bool hideCalendar = true;
   final dateFormat = DateFormat("dd/MM/yyyy");
   final customerEC = TextEditingController();
@@ -32,6 +34,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    final scheduleVm = ref.watch(scheduleVmProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agendar Cliente'),
@@ -94,6 +97,7 @@ class _SchedulePageState extends State<SchedulePage> {
                           onOkPressed: (selectedDate) {
                             setState(() {
                               dateEC.text = dateFormat.format(selectedDate);
+                              scheduleVm.dateSelect(selectedDate);
                               hideCalendar = true;
                             });
                           },
@@ -105,7 +109,7 @@ class _SchedulePageState extends State<SchedulePage> {
                   WorkHoursWrap.singleSelection(
                     finalHour: 23,
                     initalHour: 06,
-                    onHourSelected: (day) {},
+                    onHourSelected: (hour) => scheduleVm.hourSelect(hour),
                     enabledHours: const [
                       06,
                       07,
@@ -129,6 +133,23 @@ class _SchedulePageState extends State<SchedulePage> {
                           Messages.showError(context, 'Campos Inválidos');
                           break;
                         case true:
+                          final isHourSelected = ref.watch(scheduleVmProvider
+                              .select((state) => state.scheduleHour != null));
+
+                          print(isHourSelected);
+
+                          if (isHourSelected) {
+                            //register
+                          } else {
+                            Messages.showError(context,
+                                'Por favor informe uma hora para o atendimento');
+                          }
+
+                          int? value =
+                              ref.read(scheduleVmProvider).scheduleHour;
+
+                          print(value);
+
                           break;
                       }
                     },
