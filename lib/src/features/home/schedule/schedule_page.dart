@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../../../core/ui/helpers/messages.dart';
+import '../../../models/user_model.dart';
 
 class SchedulePage extends ConsumerStatefulWidget {
   const SchedulePage({super.key});
@@ -35,6 +36,19 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     final scheduleVm = ref.watch(scheduleVmProvider.notifier);
+    var userModel = ModalRoute.of(context)!.settings.arguments as UserModel;
+
+    final employeeData = switch (userModel) {
+      UserModelADM(:final workHours, :final workDays) => (
+          workDays: workDays!,
+          workHours: workHours!
+        ),
+      UserModelEmployee(:final workHours, :final workDays) => (
+          workDays: workDays,
+          workHours: workHours
+        ),
+    };
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agendar Cliente'),
@@ -90,6 +104,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                       children: [
                         const SizedBox(height: 36),
                         CalendarWidget(
+                          enabledDays: employeeData.workDays,
                           onCancelPressed: () {
                             setState(() {});
                             hideCalendar = true;
@@ -98,6 +113,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                             setState(() {
                               dateEC.text = dateFormat.format(selectedDate);
                               scheduleVm.dateSelect(selectedDate);
+
                               hideCalendar = true;
                             });
                           },
@@ -107,24 +123,10 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                   ),
                   const SizedBox(height: 36),
                   WorkHoursWrap.singleSelection(
-                    finalHour: 23,
-                    initalHour: 06,
-                    onHourSelected: (hour) => scheduleVm.hourSelect(hour),
-                    enabledHours: const [
-                      06,
-                      07,
-                      08,
-                      09,
-                      12,
-                      13,
-                      14,
-                      15,
-                      16,
-                      17,
-                      18,
-                      19
-                    ],
-                  ),
+                      finalHour: 23,
+                      initalHour: 06,
+                      onHourSelected: (hour) => scheduleVm.hourSelect(hour),
+                      enabledHours: employeeData.workHours),
                   const SizedBox(height: 36),
                   ElevatedButton(
                     onPressed: () {
@@ -136,19 +138,12 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                           final isHourSelected = ref.watch(scheduleVmProvider
                               .select((state) => state.scheduleHour != null));
 
-                          print(isHourSelected);
-
                           if (isHourSelected) {
                             //register
                           } else {
                             Messages.showError(context,
                                 'Por favor informe uma hora para o atendimento');
                           }
-
-                          int? value =
-                              ref.read(scheduleVmProvider).scheduleHour;
-
-                          print(value);
 
                           break;
                       }

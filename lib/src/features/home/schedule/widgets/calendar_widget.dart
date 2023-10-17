@@ -6,11 +6,13 @@ import 'package:table_calendar/table_calendar.dart';
 class CalendarWidget extends StatefulWidget {
   final VoidCallback onCancelPressed;
   final ValueChanged<DateTime> onOkPressed;
+  final List<String> enabledDays;
 
   const CalendarWidget({
     super.key,
     required this.onCancelPressed,
     required this.onOkPressed,
+    required this.enabledDays,
   });
 
   @override
@@ -19,6 +21,26 @@ class CalendarWidget extends StatefulWidget {
 
 class _CalendarWidgetState extends State<CalendarWidget> {
   DateTime? selectedDay;
+  late final workDays;
+
+  convertWeekday(String weekday) {
+    return switch (weekday.toLowerCase()) {
+      "seg" => DateTime.monday,
+      "ter" => DateTime.tuesday,
+      "qua" => DateTime.wednesday,
+      "qui" => DateTime.thursday,
+      "sex" => DateTime.friday,
+      "sab" => DateTime.saturday,
+      "dom" => DateTime.sunday,
+      _ => 0
+    };
+  }
+
+  @override
+  void initState() {
+    workDays = widget.enabledDays.map((e) => convertWeekday(e)).toList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +77,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 shape: BoxShape.circle,
               ),
             ),
+            enabledDayPredicate: (day) {
+              return workDays.contains(day.weekday);
+            },
             selectedDayPredicate: (day) {
               return isSameDay(day, selectedDay);
             },
@@ -80,7 +105,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               TextButton(
                 onPressed: () {
                   if (selectedDay == null) {
-                    Messages.showError(context, "Pof favor selecione uma data");
+                    Messages.showError(context, "Por favor selecione uma data");
                     return;
                   }
 

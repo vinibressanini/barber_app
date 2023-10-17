@@ -46,7 +46,8 @@ class EmployeeContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () => Navigator.of(context).pushNamed("/home/schedule"),
+                      onPressed: () => Navigator.of(context)
+                          .pushNamed("/home/schedule", arguments: employee),
                       style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 12)),
                       child: const Text("AGENDAR"),
