@@ -2,6 +2,7 @@ import 'package:barber_app/src/core/ui/barbershop_icons.dart';
 import 'package:barber_app/src/core/ui/constants.dart';
 import 'package:barber_app/src/core/ui/widgets/avatar_widget.dart';
 import 'package:barber_app/src/core/ui/widgets/work_hours_wrap.dart';
+import 'package:barber_app/src/features/home/schedule/schedule_state.dart';
 import 'package:barber_app/src/features/home/schedule/schedule_vm.dart';
 import 'package:barber_app/src/features/home/schedule/widgets/calendar_widget.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,21 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
           workHours: workHours
         ),
     };
+
+    ref.listen(scheduleVmProvider.select((state) => state.status), (_, status) {
+      switch (status) {
+        case ScheduleStateStatus.initial:
+          break;
+        case ScheduleStateStatus.success:
+          Messages.showSuccess(context, "Cliente agendado com sucesso!");
+          Navigator.of(context).pop();
+          break;
+        case ScheduleStateStatus.error:
+          Messages.showError(
+              context, "Ocorreu um erro ao agendar o cliente. Tente novamente");
+          break;
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -139,7 +155,8 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                               .select((state) => state.scheduleHour != null));
 
                           if (isHourSelected) {
-                            //register
+                            scheduleVm.register(
+                                user: userModel, customer: customerEC.text);
                           } else {
                             Messages.showError(context,
                                 'Por favor informe uma hora para o atendimento');

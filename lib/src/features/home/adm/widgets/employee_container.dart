@@ -53,7 +53,8 @@ class EmployeeContainer extends StatelessWidget {
                       child: const Text("AGENDAR"),
                     ),
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed("/employee/schedule"),
                       style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 12)),
                       child: const Text("VER AGENDA"),
