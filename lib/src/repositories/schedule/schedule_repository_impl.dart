@@ -44,13 +44,13 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   Future<Either<RepositoryException, List<ScheduleModel>>> findScheduleByDate(
       ({DateTime date, int userId}) filter) async {
     try {
-      final Response(:data) = await _restClient.auth.get("/schedules",
+      final Response(:List data) = await _restClient.auth.get("/schedules",
           queryParameters: {
             "user_id": filter.userId,
             "date": filter.date.toIso8601String()
           });
 
-      final schedules = data.map((s) => ScheduleModel.fromMap(s)).toList();
+      final List<ScheduleModel> schedules = data.map((s) => ScheduleModel.fromMap(s)).toList();
 
       return Success(schedules);
     } on DioException catch (e, s) {
