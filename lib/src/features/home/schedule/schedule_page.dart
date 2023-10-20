@@ -2,6 +2,7 @@ import 'package:barber_app/src/core/ui/barbershop_icons.dart';
 import 'package:barber_app/src/core/ui/constants.dart';
 import 'package:barber_app/src/core/ui/widgets/avatar_widget.dart';
 import 'package:barber_app/src/core/ui/widgets/work_hours_wrap.dart';
+import 'package:barber_app/src/features/home/employee/employee_home_provider.dart';
 import 'package:barber_app/src/features/home/schedule/schedule_state.dart';
 import 'package:barber_app/src/features/home/schedule/schedule_vm.dart';
 import 'package:barber_app/src/features/home/schedule/widgets/calendar_widget.dart';
@@ -56,6 +57,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
           break;
         case ScheduleStateStatus.success:
           Messages.showSuccess(context, "Cliente agendado com sucesso!");
+          ref.invalidate(getTotalSchedulesTodayProvider);
           Navigator.of(context).pop();
           break;
         case ScheduleStateStatus.error:
@@ -79,9 +81,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                 children: [
                   const AvatarWidget(hideUploadIcon: true),
                   const SizedBox(height: 36),
-                  const Text(
-                    "Nome e Sobrenome",
-                    style: TextStyle(
+                  Text(
+                    userModel.name,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:barber_app/src/core/providers/application_providers.dart';
 import 'package:barber_app/src/core/ui/barbershop_icons.dart';
 import 'package:barber_app/src/core/ui/constants.dart';
 import 'package:barber_app/src/core/ui/widgets/barbershop_loader.dart';
@@ -70,6 +71,7 @@ class _AdminHomePageState extends ConsumerState<AdminHomePage> {
         onPressed: () async {
           await Navigator.of(context).pushNamed("/auth/register/employee");
           ref.invalidate(adminHomeVmProvider);
+          ref.invalidate(getMeProvider);
         },
         backgroundColor: ColorsConstants.brown,
         shape: const CircleBorder(),

@@ -5,9 +5,11 @@ import 'package:barber_app/src/features/auth/employee/register/employee_register
 import 'package:barber_app/src/features/auth/employee/schedule/employee_schedule_page.dart';
 import 'package:barber_app/src/features/auth/register/barbershop/barbershop_register_page.dart';
 import 'package:barber_app/src/features/home/adm/admin_home_page.dart';
+import 'package:barber_app/src/features/home/employee/employee_home_page.dart';
 import 'package:barber_app/src/features/home/schedule/schedule_page.dart';
 import 'package:barber_app/src/features/splash/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'auth/login/login_page.dart';
 import 'auth/register/user/register_page.dart';
@@ -20,7 +22,7 @@ class BarbershopApp extends StatelessWidget {
     return AsyncStateBuilder(
       builder: (asyncNavigatorObserver) {
         return MaterialApp(
-          initialRoute: "/",
+          initialRoute: "/auth/login",
           theme: BarbershopTheme.themeDate,
           navigatorObservers: [asyncNavigatorObserver],
           navigatorKey: BarbershopNavGlobalKey.instance.key,
@@ -31,11 +33,18 @@ class BarbershopApp extends StatelessWidget {
             "/auth/register/employee": (_) => const EmployeeRegisterPage(),
             "auth/register/barbershop": (_) => const BarbershopRegisterPage(),
             "/home/adm": (_) => const AdminHomePage(),
-            "/home/employee": (_) => const Text("EMPLOYEE"),
+            "/home/employee": (_) => const EmployeeHomePage(),
             "/home/schedule": (_) => const SchedulePage(),
             "/employee/schedule": (_) => const EmployeeSchedulePage(),
           },
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale("pt", "BR")],
+          locale: const Locale("pt", "BR"),
         );
       },
     );
