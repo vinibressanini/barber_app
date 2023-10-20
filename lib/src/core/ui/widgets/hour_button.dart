@@ -7,11 +7,15 @@ class HourButton extends StatefulWidget {
   final int value;
   final ValueChanged<int> onHourSelected;
   final List<int>? enabledHours;
+  final bool singleSelection;
+  final int? selectedValue;
 
   const HourButton({
     required this.value,
     required this.label,
     required this.onHourSelected,
+    required this.singleSelection,
+    required this.selectedValue,
     this.enabledHours,
     super.key,
   });
@@ -25,6 +29,20 @@ class _HourButtonState extends State<HourButton> {
 
   @override
   Widget build(BuildContext context) {
+    final HourButton(:singleSelection, :selectedValue, :value) = widget;
+
+    if (singleSelection) {
+      if (selectedValue != null) {
+        if (selectedValue == value) {
+          selected = true;
+        } else {
+          selected = false;
+        }
+      }
+
+      setState(() {});
+    }
+
     var buttonColor = selected ? ColorsConstants.brown : Colors.white;
 
     var disableButton = widget.enabledHours != null &&

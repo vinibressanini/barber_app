@@ -146,8 +146,8 @@ class _EmployeeRegisterPageState extends ConsumerState<EmployeeRegisterPage> {
                         WorkHoursWrap(
                           finalHour: 23,
                           initalHour: 5,
-                          onHourSelected: (int hour) =>
-                              employeeVm.addOrRemoveWorkHour(hour),
+                          onHourSelected: (int? hour) =>
+                              employeeVm.addOrRemoveWorkHour(hour!),
                           enabledHours: data.openingHours,
                         ),
                       ],
