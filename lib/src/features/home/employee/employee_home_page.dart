@@ -60,6 +60,7 @@ class EmployeeHomePage extends ConsumerWidget {
                               final totalSchedulesAsync = ref.watch(
                                   getTotalSchedulesTodayProvider(userId));
                               return totalSchedulesAsync.when(
+                                skipLoadingOnRefresh: false,
                                 loading: () =>
                                     const Center(child: BarbershopLoader()),
                                 error: (error, stackTrace) => const Center(

@@ -43,7 +43,7 @@ class BarbershopRepositoryImpl implements BarbershopRepository {
       }) data) async {
     try {
       await _restClient.auth.post("/barbershop", data: {
-        "user_if": '#userAuthRef',
+        "user_id": '#userAuthRef',
         "name": data.name,
         "email": data.email,
         "opening_hours": data.openingHours,
