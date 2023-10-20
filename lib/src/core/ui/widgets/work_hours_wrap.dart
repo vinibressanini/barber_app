@@ -5,7 +5,7 @@ import 'hour_button.dart';
 class WorkHoursWrap extends StatefulWidget {
   final int initalHour;
   final int finalHour;
-  final ValueChanged<int?> onHourSelected;
+  final ValueChanged<int> onHourSelected;
   final List<int>? enabledHours;
   final bool singleSelection;
 
@@ -57,17 +57,16 @@ class _WorkHoursWrapState extends State<WorkHoursWrap> {
                 singleSelection: widget.singleSelection,
                 selectedValue: lastSelection,
                 onHourSelected: (timeSelected) {
-                  if (widget.singleSelection) {
-                    if (lastSelection == timeSelected) {
-                      lastSelection = null;
-                    } else {
-                      lastSelection = timeSelected;
+                  setState(() {
+                    if (widget.singleSelection) {
+                      if (lastSelection == timeSelected) {
+                        lastSelection = null;
+                      } else {
+                        lastSelection = timeSelected;
+                      }
                     }
-
-                    setState(() {});
-
-                    widget.onHourSelected(lastSelection);
-                  }
+                    widget.onHourSelected(timeSelected);
+                  });
                 },
               ),
           ],

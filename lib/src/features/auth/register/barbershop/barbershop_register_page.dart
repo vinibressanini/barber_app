@@ -31,7 +31,7 @@ class _BarbershopRegisterPageState
 
   @override
   Widget build(BuildContext context) {
-    final barbershopVm = ref.read(barbershopRegisterVmProvider.notifier);
+    final barbershopVm = ref.watch(barbershopRegisterVmProvider.notifier);
 
     ref.listen(barbershopRegisterVmProvider, (_, state) {
       switch (state.status) {
@@ -40,7 +40,7 @@ class _BarbershopRegisterPageState
         case BarbershopRegisterStateStatus.successful:
           Messages.showSuccess(context, "Barbearia criada com sucesso!");
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/barbershop_test', (route) => false);
+              .pushNamedAndRemoveUntil("/home/adm", (route) => false);
           break;
         case BarbershopRegisterStateStatus.failure:
           Messages.showError(
@@ -87,7 +87,7 @@ class _BarbershopRegisterPageState
                   initalHour: 05,
                   finalHour: 23,
                   onHourSelected: (value) {
-                    barbershopVm.addOrRemoveWorkingHours(value!);
+                    barbershopVm.addOrRemoveWorkingHours(value);
                   },
                 ),
                 const SizedBox(height: 24),
@@ -97,6 +97,7 @@ class _BarbershopRegisterPageState
                       switch (_formKey.currentState!.validate()) {
                         case true:
                           barbershopVm.save(_nameEC.text, _emailEC.text);
+
                           break;
                         case false:
                           break;

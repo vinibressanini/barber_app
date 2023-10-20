@@ -79,9 +79,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                 children: [
                   const AvatarWidget(hideUploadIcon: true),
                   const SizedBox(height: 36),
-                  const Text(
-                    "Nome e Sobrenome",
-                    style: TextStyle(
+                  Text(
+                    userModel.name,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
